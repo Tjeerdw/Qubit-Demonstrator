@@ -1,18 +1,21 @@
 <html>
   <head>
-    <title>Orb - interface</title>
-    <script src = 'static/communication.js' type = 'text/javascript'></script>
+    <title>Orb - full interface</title>
+    <link rel = 'stylesheet' href = '/static/stylesheet.css' type = 'text/css'/>
+    <script src = '/static/communication.js' type = 'text/javascript'></script>
   </head>
   <body>
-    <p>Klik op de gate die je wilt uitvoeren.</p>
-    <button class = 'rot' onclick = 'orb_send_operation("x")'>X</button>
-    <button class = 'rot' onclick = 'orb_send_operation("y")'>Y</button>
-    <button class = 'rot' onclick = 'orb_send_operation("z")'>Z</button>
-    <button class = 'rot' onclick = 'orb_send_operation("h")'>H</button>
-    <button class = 'rot' onclick = 'orb_send_operation("s")'>S</button>
-    <button class = 'rot' onclick = 'orb_send_operation("t")'>T</button>
-    <button class = 'rot' onclick = 'orb_send_operation("S")'>S^-1</button>
-    <button class = 'rot' onclick = 'orb_send_operation("T")'>T^-1</button>
-    <button class = 'rot' onclick = 'orb_send_rotation(1,0,0,1)'>U</button>
+    <div id = 'main'>
+      <p>Click on the gate that you want to apply.</p>
+      <button class = 'rot' onclick = 'orb_send_operation("x")'>X</button>
+      <button class = 'rot' onclick = 'orb_send_operation("y")'>Y</button>
+      <button class = 'rot' onclick = 'orb_send_operation("z")'>Z</button>
+      <button class = 'rot' onclick = 'orb_send_operation("h")'>H</button>
+      <button class = 'rot' onclick = 'orb_send_operation("s")'>S</button>
+      <button class = 'rot' onclick = 'orb_send_operation("t")'>T</button>
+      <button class = 'rot' onclick = 'orb_send_operation("S")'>S^-1</button>
+      <button class = 'rot' onclick = 'orb_send_operation("T")'>T^-1</button>
+      <button class = 'rot' onclick = 'orb_send_rotation(.38268343,0,.92387953,1)'>U</button>
+    </div>
   </body>
 </html>

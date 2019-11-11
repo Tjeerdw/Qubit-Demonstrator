@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from flask import Flask, render_template, send_file
 import serial,sys
 import numpy as np
@@ -21,12 +22,14 @@ class Orb:
     def __init__(self, comm = True):
         self.comm = comm
         self.state = np.array([0,0,1])
-        self.goal = np.array([0,0,-1])
+        self.goal = None
         if self.comm:
             try:
                 self.ser = serial.Serial('/dev/ttyUSB0', 115200)
             except serial.serialutil.SerialException:
-                print("Could not connect to the orb.\nConnect the orb to /dev/ttyUSB0 and restart the server.\nRun as python3 app.py test if you want to run without communicating with the orb.", file = sys.stderr)
+                print("Could not connect to the orb.", file = sys.stderr)
+                print("Connect the orb to /dev/ttyUSB0 and restart the server.", file = sys.stderr)
+                print("Run as ./app.py test if you want to run without communicating with the orb.", file = sys.stderr)
                 exit()
         self.update_status()
 
@@ -51,42 +54,35 @@ class Orb:
 
     def communicate(self, charcode, blocking = False, extra_data = None):
         if self.comm:
-            print(f"Sending charcode {charcode} to the orb.")
             self.ser.write(charcode.encode('ascii'))
             if extra_data is not None:
-                print("Sending the following data:", extra_data)
                 self.ser.write(bytes(extra_data))
             if blocking:
                 while self.ser.read().decode('ascii') != 'd':
                     pass
         else:
-            print(f"Simulating orb action {charcode} by waiting for a second... ")
             time.sleep(1)
-        print("Done.")
 
     def set_goal(self,x,y,z):
         assert abs(np.sqrt(x*x + y*y + z*z) - 1) <= 1e-6
         self.goal = [x,y,z]
 
     def dist_to_goal(self):
+        if self.goal == None: return 0
         return 2 * (1 - np.sum(self.state * self.goal))
 
     def get_status(self):
         return self.dist_to_goal() < 1e-4
 
     def update_status(self):
-        print(self.state)
         if self.get_status():
-            print("Status: goal reached.")
             if self.comm:
                 self.communicate('g')
         else:
-            print("Status: not there yet.")
             if self.comm:
                 self.communicate('r')
 
     def perform_rotation(self, n, theta):
-        print("Performing rotation:", n, theta)
         charcodes = list(map(lambda e : int((e+1)*127), [*n, theta/np.pi]))
         self.rotate(n,theta)
         self.communicate('u', blocking = True, extra_data = charcodes)
@@ -102,6 +98,16 @@ class Orb:
     def reset(self):
         self.state = np.array([0,0,1])
         self.update_status()
+
+    def __str__(self):
+        d = self.dist_to_goal()
+        s = []
+        s.append("This is the current status of the orb:")
+        s.append(f"Position: [{self.state[0]:.3f}, {self.state[1]:.3f}, {self.state[2]:.3f}]")
+        if self.goal == None: s.append("Goal: not set.")
+        else: s.append(f"Goal: [{self.goal[0]:.3f}, {self.goal[1]:.3f}, {self.goal[2]:.3f}]")
+        s.append(f"Distance to goal: {d:.3f} ==> {'green' if d < 1e-4 else 'red'}")
+        return '\n'.join(s)
 
 @app.route('/')
 def main():
@@ -126,34 +132,35 @@ def congratz(id, num_turns):
 @app.route('/set_goal/<string:x>/<string:y>/<string:z>')
 def set_goal(x,y,z):
     orb.set_goal(float(x), float(y), float(z))
-    print(f"Set the goal to [{x},{y},{z}].")
+    print(orb)
     return ''
 
 @app.route('/reset')
 def reset():
     orb.reset()
-    print("Reset the orb.")
+    print(orb)
     return ''
 
 @app.route('/status')
 def status():
     status = orb.get_status()
-    print(str(status))
     return str(status)
 
 @app.route('/operation/<param>')
 def perform_operation(param):
     orb.perform_operation(param)
+    print(orb)
     return ''
 
 @app.route('/rotation/<string:x>/<string:y>/<string:z>/<string:theta>')
 def perform_rotation(x,y,z,theta):
     orb.perform_rotation([float(x), float(y), float(z)], float(theta)*np.pi)
+    print(orb)
     return ''
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
-        orb = Orb(True)
+        orb = Orb(comm = True)
     else:
-        orb = Orb(False)
+        orb = Orb(comm = False)
     app.run(port = 5001)
