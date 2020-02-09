@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Orb - Problem3</title>
+    <title>Orb - Opgave 1</title>
     <link rel = 'stylesheet' href = '/static/stylesheet.css' type = 'text/css'/>
     <script src = '/static/communication.js' type = 'text/javascript'></script>
     <script>
@@ -24,18 +24,16 @@
       </div>
     </div>
     <div id = 'main'>
-      <h1>90 graden</h1>
+      <h1>H en Z</h1>
       <p>Laat de pijl recht naar beneden wijzen.</p>
       <p>Hiervoor kun je alleen de volgende operaties gebruiken.</p>
-      <p>Allen zijn een rotatie over 90 graden en je mag ze allemaal maar 1x gebruiken.</p>
       <p>
-        <button class = 'rot' onclick = 'orb_send_rotation(1,0,0,.5,this)'>X 90deg</button>
-        <button class = 'rot' onclick = 'orb_send_rotation(0,1,0,.5,this)'>Y 90deg</button>
-        <button class = 'rot' onclick = 'orb_send_rotation(0,0,1,.5,this)'>Z 90deg</button>
+        <button class = 'rot' onclick = 'orb_send_operation("z")'>Z</button>
+        <button class = 'rot' onclick = 'orb_send_operation("h")'>H</button>
         <button class = 'rot' onclick = 'reset()'>Reset</button>
       </p>
       <p><button onclick = 'location.href="/"'>Terug naar de start</button></p>
-      <p class = 'hidden'><button id = 'success' onclick = 'location.href="/congratulations/3/" + window.num_turns'></button></p>
+      <p class = 'hidden'><button id = 'success' onclick = 'location.href="/nl/congratulations/1/" + window.num_turns'></button></p>
     </div>
   </body>
 </html>

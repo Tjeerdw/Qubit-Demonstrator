@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <title>Orb - Problem 3</title>
+    <link rel = 'stylesheet' href = '/static/stylesheet.css' type = 'text/css'/>
+    <script src = '/static/communication.js' type = 'text/javascript'></script>
+    <script>
+      function setup()
+      {
+        remove_splash()
+        orb_set_goal(0,0,-1)
+      }
+
+      function reset()
+      {
+        location.reload()
+      }
+    </script>
+  </head>
+  <body onload = 'orb_reset()'>
+    <div id = 'wrapper'>
+      <div id = 'splash'>
+        <p>Use <b>your hands</b> to point the arrow <b>straight up</b>!</p>
+        <p><button onclick = 'setup()'>Yes, the arrow points up</button></p>
+      </div>
+    </div>
+    <div id = 'main'>
+      <h1>90 degrees</h1>
+      <p>The goal is to point the arrow down.</p>
+      <p>You are only allowed to use the following operations.</p>
+      <p>Each of these represents a rotation of 90 degrees about an axis - you can only use each once.</p>
+      <p>
+        <button class = 'rot' onclick = 'orb_send_rotation(1,0,0,.5,this)'>X 90deg</button>
+        <button class = 'rot' onclick = 'orb_send_rotation(0,1,0,.5,this)'>Y 90deg</button>
+        <button class = 'rot' onclick = 'orb_send_rotation(0,0,1,.5,this)'>Z 90deg</button>
+        <button class = 'rot' onclick = 'reset()'>Reset</button>
+      </p>
+      <p><button onclick = 'location.href="/"'>Back to Start</button></p>
+      <p class = 'hidden'><button id = 'success' onclick = 'location.href="/en/congratulations/3/" + window.num_turns'></button></p>
+    </div>
+  </body>
+</html>

@@ -110,24 +110,28 @@ class Orb:
         return '\n'.join(s)
 
 @app.route('/')
-def main():
-    return render_template('main.html')
+def splash():
+    return render_template('splash.html')
+
+@app.route('/<string:lang>/')
+def main(lang):
+    return render_template(f'{lang}/main.html')
 
 @app.route('/favicon.ico')
 def favicon():
     return send_file('favicon.ico')
 
-@app.route('/interface')
-def interface():
-    return render_template('interface.html')
+@app.route('/<string:lang>/interface')
+def interface(lang):
+    return render_template(f'{lang}/interface.html')
 
-@app.route('/problem/<id>')
-def problem(id):
-    return render_template(f'problem{id}.html')
+@app.route('/<string:lang>/problem/<id>')
+def problem(lang, id):
+    return render_template(f'{lang}/problem{id}.html')
 
-@app.route('/congratulations/<int:id>/<int:num_turns>')
-def congratz(id, num_turns):
-    return render_template('congratulations.html', id = id, num_turns = num_turns, opt_turns = OPT_TURNS[id])
+@app.route('/<string:lang>/congratulations/<int:id>/<int:num_turns>')
+def congratz(lang, id, num_turns):
+    return render_template(f'{lang}/congratulations.html', id = id, num_turns = num_turns, opt_turns = OPT_TURNS[id])
 
 @app.route('/set_goal/<string:x>/<string:y>/<string:z>')
 def set_goal(x,y,z):
