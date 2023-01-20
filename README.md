@@ -27,3 +27,11 @@ can change the address in `app.py`. Next, make sure you have
 
 Now you can connect to the webserver by navigating to
 `localhost:5001` in a browser.
+
+`sim`
+-----
+
+The folder `sim` contains a python script that simulates the
+movement of the orb, given the speed of rotation of each of the
+individua wheels. The coefficient matrix it produces is used in
+the source code for the orb, in the file `orb/src/main.ccp`.
