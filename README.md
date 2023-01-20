@@ -28,7 +28,7 @@ can change the address in `app.py`. Next, make sure you have
 Now you can connect to the webserver by navigating to
 `localhost:5001` in a browser.
 
-`sim`
+`Sim`
 -----
 
 The folder `sim` contains a python script that simulates the
