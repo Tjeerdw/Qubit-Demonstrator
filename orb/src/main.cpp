@@ -128,7 +128,7 @@ void setup()
 
     pinMode(STP_MS1, OUTPUT);
     pinMode(STP_MS2, OUTPUT);
-    pinMode(STP_MS2, OUTPUT);
+    pinMode(STP_MS3, OUTPUT);
 
     digitalWrite(STP_EN, LOW);
 
