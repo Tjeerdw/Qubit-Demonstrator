@@ -30,7 +30,7 @@
 #define STP_EN 18
 #define STP_MS1 23
 #define STP_MS2 22
-#define STP_MS3 32
+#define STP_MS3 14
 
 #define ONE_WIRE_BUS 19
 

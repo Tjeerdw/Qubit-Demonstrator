@@ -132,9 +132,9 @@ void setup()
 
     digitalWrite(STP_EN, LOW);
 
-    digitalWrite(STP_MS1, HIGH); //eights microstepping seems ideal = HIGH HIGH LOW
-    digitalWrite(STP_MS2, HIGH);
-    digitalWrite(STP_MS3, LOW);
+    digitalWrite(STP_MS1, HIGH); //configure for 1/16 microstep
+    digitalWrite(STP_MS2, HIGH); //used to set to 1/8 microstep due to software bug.
+    digitalWrite(STP_MS3, HIGH);
 
     strip.SetPixelColor(0, green);
     strip.SetPixelColor(1, green);
